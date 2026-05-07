@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Brand Intelligence Briefing — May 07, 2026 at 18:45</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f172a;--navy2:#1e293b;--slate:#475569;--muted:#94a3b8;
+  --border:#e2e8f0;--bg:#f8fafc;--white:#fff;
+  --green:#16a34a;--green-bg:#dcfce7;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --gray:#6b7280;--gray-bg:#f3f4f6;
+  --blue:#1d4ed8;--blue-bg:#dbeafe;
+  --amber:#92400e;--amber-bg:#fef3c7;
+  --purple:#5b21b6;--purple-bg:#ede9fe;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+     background:var(--bg);color:#111827;line-height:1.5;}
+a{color:inherit;text-decoration:none}
+a:hover{opacity:.8}
+
+.header{background:var(--navy);color:white;padding:40px 48px}
+.header-top{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.header-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.header h1{font-size:26px;font-weight:700;margin-bottom:6px}
+.header-meta{font-size:13px;color:var(--muted)}
+
+.container{max-width:1060px;margin:0 auto;padding:36px 24px}
+
+.stats-row{display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:var(--white);border:1px solid var(--border);
+       border-radius:12px;padding:18px 20px;text-align:center}
+.stat-val{font-size:36px;font-weight:700;line-height:1}
+.stat-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:5px}
+
+.kw-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.kw-card{background:var(--white);border:1px solid var(--border);border-radius:10px;
+          padding:14px 16px;min-width:150px;flex:1;cursor:pointer;transition:border-color .15s}
+.kw-card:hover,.kw-card.active{border-color:var(--navy);background:var(--navy);color:white}
+.kw-card:hover .kw-meta,.kw-card.active .kw-meta{color:#94a3b8}
+.kw-card:hover .kw-bars span,.kw-card.active .kw-bars span{opacity:.9}
+.kw-name{font-size:13px;font-weight:700;margin-bottom:6px;
+          white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.kw-meta{font-size:11px;color:var(--muted);margin-bottom:8px}
+.kw-bars{display:flex;gap:10px;font-size:12px}
+
+.filter-section{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;color:var(--muted);align-self:center;
+               text-transform:uppercase;letter-spacing:.06em}
+.fbtn{padding:5px 14px;border-radius:20px;border:1px solid var(--border);
+       background:transparent;font-size:12px;cursor:pointer;color:var(--slate);
+       font-family:inherit;transition:all .15s}
+.fbtn:hover{border-color:#94a3b8;color:#111}
+.fbtn.active{background:var(--navy);color:white;border-color:var(--navy)}
+
+.search-box{flex:1;min-width:180px;max-width:260px;padding:6px 12px;
+             border:1px solid var(--border);border-radius:20px;font-size:13px;
+             font-family:inherit;outline:none}
+.search-box:focus{border-color:#94a3b8}
+
+.section-hdr{font-size:11px;font-weight:700;text-transform:uppercase;
+              letter-spacing:.08em;color:var(--muted);margin:0 0 10px}
+
+.result{background:var(--white);border:1px solid var(--border);border-radius:10px;
+         padding:14px 18px;margin-bottom:8px;transition:border-color .15s;display:flex;
+         justify-content:space-between;align-items:flex-start;gap:12px}
+.result:hover{border-color:#cbd5e1}
+.result-body{flex:1;min-width:0}
+.result-title{font-size:14px;font-weight:600;color:#111827;display:block;
+               margin-bottom:5px;line-height:1.4}
+.result-title:hover{color:var(--blue)}
+.result-snippet{font-size:13px;color:var(--slate);line-height:1.55;margin-bottom:10px}
+.result-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-news{background:var(--blue-bg);color:var(--blue)}
+.badge-social{background:var(--purple-bg);color:var(--purple)}
+.badge-web{background:var(--green-bg);color:var(--green)}
+.badge-forum,.badge-forums{background:var(--amber-bg);color:var(--amber)}
+.badge-blog{background:var(--red-bg);color:var(--red)}
+.platform{font-size:12px;color:var(--muted)}
+.pub-date{font-size:11px;color:#d1d5db;margin-left:auto}
+.view-link{font-size:11px;color:var(--blue);margin-left:auto;
+            display:flex;align-items:center;gap:3px}
+.result-sent{font-size:20px;flex-shrink:0;padding-top:2px}
+.s-pos{color:var(--green);font-weight:700}
+.s-neg{color:var(--red);font-weight:700}
+.s-neu{color:var(--gray)}
+
+.kw-divider{font-size:11px;font-weight:700;text-transform:uppercase;
+             letter-spacing:.08em;color:var(--muted);margin:20px 0 10px;
+             display:flex;align-items:center;gap:8px}
+.kw-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.kw-summary-box{background:var(--bg);border-radius:8px;padding:12px 16px;
+                 font-size:13px;color:var(--slate);line-height:1.6;
+                 margin-bottom:12px;border-left:3px solid var(--border)}
+
+.empty{text-align:center;padding:48px;color:var(--muted)}
+.empty h2{font-size:18px;color:#374151;margin-bottom:8px}
+
+.footer{background:var(--navy2);color:var(--muted);text-align:center;
+         padding:24px;font-size:12px;margin-top:40px}
+.footer strong{color:white}
+
+.result[data-hidden="true"]{display:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    
+    <span class="header-label">Azneft · Brand Intelligence Briefing</span>
+  </div>
+  <h1>Brand Intelligence Briefing</h1>
+  <div class="header-meta">
+    May 07, 2026 at 18:45 &nbsp;·&nbsp;
+    40 mention(s) across 22 keyword(s) &nbsp;·&nbsp;
+    Next update: May 08, 2026
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-val">40</div>
+      <div class="stat-lbl">Total mentions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" style="color:var(--green)">20</div>
+      <div class="stat-lbl">Positive</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" style="color:var(--gray)">12</div>
+      <div class="stat-lbl">Neutral</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" style="color:var(--red)">8</div>
+      <div class="stat-lbl">Negative</div>
+    </div>
+  </div>
+
+  <!-- Keyword cards -->
+  <div class="section-hdr">Keywords</div>
+  <div class="kw-grid" id="kw-grid"></div>
+
+  <!-- Filters -->
+  <div class="filter-section">
+    <div class="filter-group">
+      <span class="filter-label">Sentiment</span>
+      <button class="fbtn active" data-filter="sentiment" data-val="all" onclick="setFilter('sentiment','all',this)">All</button>
+      <button class="fbtn" data-filter="sentiment" data-val="positive" onclick="setFilter('sentiment','positive',this)" style="color:var(--green)">▲ Positive</button>
+      <button class="fbtn" data-filter="sentiment" data-val="neutral"  onclick="setFilter('sentiment','neutral',this)">● Neutral</button>
+      <button class="fbtn" data-filter="sentiment" data-val="negative" onclick="setFilter('sentiment','negative',this)" style="color:var(--red)">▼ Negative</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Source</span>
+      <button class="fbtn active" data-filter="source" data-val="all" onclick="setFilter('source','all',this)">All</button>
+      <button class="fbtn" data-filter="source" data-val="news"   onclick="setFilter('source','news',this)">News</button>
+      <button class="fbtn" data-filter="source" data-val="social" onclick="setFilter('source','social',this)">Social</button>
+      <button class="fbtn" data-filter="source" data-val="web"    onclick="setFilter('source','web',this)">Web</button>
+      <button class="fbtn" data-filter="source" data-val="forum"  onclick="setFilter('source','forum',this)">Forums</button>
+    </div>
+    <input type="text" class="search-box" id="search-box" placeholder="Search mentions…" oninput="applyFilters()">
+  </div>
+
+  <!-- Results list -->
+  <div id="results-list"></div>
+  <div id="empty-msg" class="empty" style="display:none">
+    <h2>No results match your filters</h2>
+    <p>Try changing the sentiment or source filters above.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Brand Intelligence Briefing</strong> · Azneft ·
+  Powered by Claude AI ·
+  Generated May 07, 2026 at 18:45
+</div>
+
+<script>
+const ALL_DATA = [{"keyword": "Azneft", "category": "company", "title": "Azerbaijan's Azneft boosts security measures at its production units", "url": "https://www.trend.az/business/energy/4149447.html", "source_type": "news", "platform": "Trend.Az", "snippet": "In response to unpredictable and windy weather conditions affecting the country, security measures were enhanced in the production units of the Azneft union of SOCAR. Hazardous work was limited and necessary steps implemented to safeguard human health in line with labor standards. A source in Azneft stated awareness efforts were underway across all areas.", "sentiment": "neutral", "published": "February 4, 2026"}, {"keyword": "Azneft", "category": "company", "title": "Azneft: Leakage on 'Neft Dashlari' – Dubendi oil pipeline eliminated", "url": "https://en.apa.az/energy-and-industry/azneft-leakage-on-neft-dashlari-dubendi-oil-pipeline-eliminated-460506", "source_type": "news", "platform": "APA (Azerbaijan Press Agency)", "snippet": "Repair and restoration work on the 'Neft Dashlari'–Chilov–Shah Sachi–Dubendi oil pipeline of the Azneft Production Union under SOCAR was fully completed on February 11. A leakage had been observed on February 7 due to unstable weather conditions. Tankers bypassed the site to minimize production impact while the damaged pipeline was suspended.", "sentiment": "neutral", "published": "February 11, 2026"}, {"keyword": "Azneft", "category": "company", "title": "Overview of SOCAR's activities in 2025: Azneft drilling and MOU highlights", "url": "https://www.trend.az/business/energy/4137874.html", "source_type": "news", "platform": "Trend.Az", "snippet": "SOCAR's Azneft Production Union signed a memorandum of understanding with Kranji Solution and MySep Pte in October 2025. SOCAR's Complex Drilling Works Trust successfully drilled eight wells at Western Absheron in 2025 on behalf of the Azneft production union. An electronic 'Work Permit' system was also first implemented at SOCAR's Absheronneft unit within Azneft.", "sentiment": "positive", "published": "January 4, 2026"}, {"keyword": "Azneft", "category": "company", "title": "Azerbaijan's Azneft Production Union aims to achieve record output volume in 2025", "url": "https://report.az/en/energy/azerbaijan-s-azneft-production-union-aims-to-achieve-record-output-volume-in-2025", "source_type": "news", "platform": "Report.az", "snippet": "SOCAR's Azneft Production Union planned to exceed the oil production mark of 1.2 million tons in 2025, according to Azneft CEO Ali Gurbanov at the Baku Energy Forum. Daily oil production at Oil Rocks and Gryazevaya Sopka fields reached 3,300 tons — described as the highest in 34 years. Azneft employs approximately 13,000 people.", "sentiment": "positive", "published": "July 24, 2025"}, {"keyword": "Azneft", "category": "company", "title": "F1 Azerbaijan GP 2026 | Starter Package – Azneft Grandstand", "url": "https://f1experiences.com/2026-azerbaijan-grand-prix/starter-azneft", "source_type": "web", "platform": "F1 Experiences", "snippet": "The 2026 F1 Azerbaijan Grand Prix features the Azneft Grandstand, located at the bottom of the downhill section of the Baku City Circuit near Azneft Square. The package includes a 3-day seat, a Pit Lane Walk, and a Guided Track Tour. Azneft Square and branding are prominent landmarks of the Baku street circuit.", "sentiment": "positive", "published": "2026"}, {"keyword": "Azneft", "category": "company", "title": "Grandstand Azneft | F1 Azerbaijan 2026 | Baku City Circuit", "url": "https://www.azerbaijanf1.com/en/ticket-info/grandstand-azneft", "source_type": "web", "platform": "Azerbaijan F1 (Official GP site)", "snippet": "The Azneft Grandstand at the 2026 F1 Azerbaijan Grand Prix (September 25–27) is located next to Azneft Square and offers a view of Turn 16. Tickets include a Pit Lane Walk on Thursday and access to a concert at Baku's Crystal Hall. The grandstand is one of the named viewing areas on the Baku City Circuit.", "sentiment": "positive", "published": "2026"}, {"keyword": "Azneft", "category": "company", "title": "SOCAR Azneft PU – LinkedIn professional profiles", "url": "https://az.linkedin.com/company/socar-azneftpu-esp", "source_type": "social", "platform": "LinkedIn", "snippet": "Multiple professionals list SOCAR Azneft PU as their current or past employer on LinkedIn, spanning roles in reservoir engineering, geoscience, and gas storage operations. The Azneft Production Union continues to be a major employer in Azerbaijan's oil and gas sector. Profiles reflect active engagement with upstream projects and international partnerships.", "sentiment": "neutral", "published": "February 11, 2026"}, {"keyword": "Azneft", "category": "company", "title": "SOCAR Wikipedia – Azneft historical and operational context", "url": "https://en.wikipedia.org/wiki/SOCAR", "source_type": "web", "platform": "Wikipedia", "snippet": "In 2003, the Onshore and Offshore Oil and Gas Production Associations were merged to form the Azneft Production Union under SOCAR. SOCAR has recently expanded internationally, including a planned acquisition of Gruppo API (Italy) valued at ~€2.5 billion, expected to close in Q1 2026. Azneft remains SOCAR's core domestic oil production arm.", "sentiment": "neutral", "published": "April 2026 (last updated)"}, {"keyword": "Azneft IB", "category": "company", "title": "Azneft IB — Structural Reorganization: Director General Post Abolished", "url": "https://qafqazinfo.az/news/detail/azneftde-struktur-deyisikliyi-bas-direktor-vezifeden-getdi-485594", "source_type": "news", "platform": "Qafqazinfo.az", "snippet": "SOCAR's Azneft Production Union (IB) underwent structural and personnel changes in October 2025. The Director General position was abolished, and multiple director roles covering different areas will replace it. Former Director General Ali Gurbanov was reassigned to SOCAR Upstream as Director of Special Projects.", "sentiment": "neutral", "published": "October 15, 2025"}, {"keyword": "Azneft IB", "category": "company", "title": "\"Azneft\"in baş direktorunun vəzifəsi LƏĞV EDİLDİ", "url": "https://oxu.az/cemiyyet/azneft-in-bas-direktorunun-vezifesi-legv-edildi", "source_type": "news", "platform": "Oxu.az", "snippet": "Azneft IB's Director General Ali Gurbanov was relieved of his duties and appointed as Director of Special Projects at SOCAR Upstream. The Director General role at Azneft IB has been formally abolished, with several specialized director positions to be created in its place.", "sentiment": "neutral", "published": "October 15, 2025"}, {"keyword": "Azneft IB", "category": "company", "title": "Azneft Production Union Aims for Record Output in 2025", "url": "https://report.az/en/energy/azerbaijan-s-azneft-production-union-aims-to-achieve-record-output-volume-in-2025", "source_type": "news", "platform": "Report.az", "snippet": "Azneft IB set an ambitious target for 2025 to surpass 1.2 million tons of oil output, described as the highest production figure in the last 34 years. The announcement was made by then-Director General Gurbanov as part of the union's strategic goals.", "sentiment": "positive", "published": "July 24, 2025"}, {"keyword": "Azneft IB", "category": "company", "title": "New Director General Appointed at Azneft IB", "url": "https://report.az/energetika/azneft-i-stehsalat-birliyine-bas-direktor-teyin-edilib/", "source_type": "news", "platform": "Report.az", "snippet": "SOCAR appointed Shahmar Huseynov, previously head of the Absheronneft Oil and Gas Extraction Department, as the new Director General of Azneft IB. Former Director General Dashgin Iskandarov was simultaneously appointed as SOCAR Vice President for Oil and Gas Transportation and Gas Economy.", "sentiment": "neutral", "published": "July 2, 2025"}, {"keyword": "Azneft IB", "category": "company", "title": "Fire at Azneft IB's '28 May' Offshore Platform — One Fatality", "url": "https://report.az/energetika/azneft-ib-in-28-may-nqci-nin-derin-deniz-ozulunde-yangin-olub-olen-var", "source_type": "news", "platform": "Report.az", "snippet": "A fire broke out at the No. 4 Deep Sea Platform of Azneft IB's '28 May' Oil and Gas Extraction Department. Firefighting vessels were immediately deployed and the blaze was contained. One employee, Rafiq Islamov, born 1960, lost his life as a result of the incident.", "sentiment": "negative", "published": "July 1, 2025"}, {"keyword": "Azneft IB", "category": "company", "title": "Azneft IB Hosts Meeting on Information Technology Application", "url": "https://report.az/en/energy/azneft-pu-holds-a-meeting-on-application-of-information-technologies/", "source_type": "news", "platform": "Report.az", "snippet": "Azneft Production Union of SOCAR hosted a meeting focused on expanding the use of the SAP ERP manufacturing module (SAP UOM). The Director General discussed automated systems for financial, accounting, and production management processes as part of the union's modernization drive.", "sentiment": "positive", "published": "2024"}, {"keyword": "Azneft IB", "category": "company", "title": "Azneft IB Official Facebook Page", "url": "https://www.facebook.com/AzneftOfficial/", "source_type": "social", "platform": "Facebook", "snippet": "Azneft IB's official Facebook page, based in Baku, has over 9,400 followers and regularly posts updates on company activities. Recent posts include commemorations of employees who fell during the 44-day Patriotic War, reflecting ongoing corporate social engagement.", "sentiment": "positive", "published": ""}, {"keyword": "Azneft IB", "category": "company", "title": "Azneft IB Gas Infrastructure Renewal Underway — AZERTAC", "url": "https://azertag.az/xeber/azneft_ib_nin_qaz_teserrufati_yenilenir-958477", "source_type": "news", "platform": "AZERTAC (Azerbaijan State News Agency)", "snippet": "Azneft IB is actively upgrading its gas infrastructure across all subsidiary departments. Modern vacuum compressors, gas-water coolers, and turbine units are being replaced, including the swap of nine electric-drive vacuum compressors at the Neft Dashlari platform with six modern screw compressors.", "sentiment": "positive", "published": ""}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "SOCAR Upstream Management International LLC — LinkedIn Company Page", "url": "https://az.linkedin.com/company/socar-upstream-management-international-llc", "source_type": "social", "platform": "LinkedIn", "snippet": "SOCAR Upstream Management International LLC (SOCAR Upstream) was established on 28 October 2014 to improve efficiency and quality of operations. It manages and operates SOCAR affiliates on major projects including Shah Deniz and ACG. The company is actively hiring, posting roles such as Lead HSE Specialist and Legal Advisor.", "sentiment": "positive", "published": ""}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "SOCAR Completes Consolidation of 100% Share in PSA for Bahar, Gum Deniz Fields", "url": "https://interfax.com/newsroom/top-stories/116544/", "source_type": "news", "platform": "Interfax", "snippet": "As of August 15, 2025, SOCAR secured the acquisition of 100% of the shares in Bahar Energy Operating Company Ltd (BEOC), as a result of which the project is fully managed by SOCAR. The company has developed a strategic roadmap for the partial (60–70%) transfer of shares in the Bahar field. Both Bahar and Gum Deniz fields are of strategic importance for Azerbaijan's energy industry.", "sentiment": "positive", "published": "March 11, 2026"}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "MOL, SOCAR Sign Upstream Deal in Azerbaijan's Shamakhi-Gobustan Area", "url": "https://www.offshore-technology.com/news/mol-socar-upstream-deal-azerbaijan/", "source_type": "news", "platform": "Offshore Technology", "snippet": "MOL Group and SOCAR signed a production sharing agreement for exploration and production in Azerbaijan's Shamakhi-Gobustan area. Under the PSA, MOL will serve as operator with a 65% interest while SOCAR holds 35%. The two companies plan to commence seismic surveys in early 2026, with drilling activities expected to follow.", "sentiment": "positive", "published": "December 19, 2025"}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "Özbəkistan və Azərbaycan 'Üstyurd' Layihəsi Üzrə Əməliyyat Şirkəti Yaradıblar", "url": "https://report.az/energetika/ozbekistan-ve-azerbaycan-ustyurt-layihesi-uzre-emeliyyat-sirketi-yaradiblar", "source_type": "news", "platform": "Report.az", "snippet": "Daşkənddə SOCAR ilə birgə Üstyurd regionu üzrə hasilatın pay bölgüsü sazişinin həyata keçirilməsi üçün 'Ustyurt Operating Company' əməliyyat şirkətinin ofisinin açılış mərasimi keçirilib. SOCAR geoloji-kəşfiyyat işləri mərhələsində operator qismində çıxış edəcək. Layihə altı investisiya blokunda kəşfiyyat, işlənmə və hasilatı nəzərdə tutur.", "sentiment": "positive", "published": "December 4, 2025"}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "From Oil Fields to Global Footprint: SOCAR's Strategic Evolution", "url": "https://caspian-alpine.org/from-oil-fields-to-global-footprint-socars-strategic-evolution/", "source_type": "blog", "platform": "Caspian-Alpine Society", "snippet": "SOCAR has accelerated investments into modernization and upstream diversification, with the Azeri Central East (ACE) platform launch in 2024 exceeding output expectations. Gas production exceeded 50 bcm in 2024 due to strong performance at Shah Deniz and Umid. Upstream investments abroad now include equity stakes in fields in the UAE and Israel.", "sentiment": "positive", "published": "June 17, 2025"}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "Supermajors Line Up for Upstream Riches in Azerbaijan", "url": "https://www.upstreamonline.com/exploration/supermajors-line-up-for-upstream-riches-in-azerbaijan/2-1-1827649", "source_type": "news", "platform": "Upstream Online", "snippet": "Major international energy companies including ExxonMobil, BP, and TotalEnergies are positioning for upstream opportunities in Azerbaijan. SOCAR is a central partner in these developments, particularly around the ACG complex offshore. The report highlights growing interest from supermajors in SOCAR-linked upstream assets.", "sentiment": "positive", "published": "June 3, 2025"}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "SOCAR Upstream MI LLC — SmartJob.az Company Profile", "url": "https://smartjob.az/company/31386-socar-upstream-mi-llc", "source_type": "web", "platform": "SmartJob.az", "snippet": "SOCAR Upstream MI LLC is listed as an active employer on the Azerbaijani job platform SmartJob.az. The company profile provides detailed information about the firm and its open vacancies. This reflects ongoing recruitment activity by the SOCAR Upstream operating entity in Azerbaijan.", "sentiment": "neutral", "published": ""}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "title": "Ekspert: Emal Müəssisələrinin 'SOCAR Downstream Management'ə Verilməsi Mənasız Xərcləri Azaldacaq", "url": "https://report.az/energetika/ekspert-socar-in-socar-downstream-management-in-idareetmesine-verilmesi-menasiz-xercleri-azaltmis-olacaq/", "source_type": "news", "platform": "Report.az", "snippet": "An expert commentary on Report.az discusses how transferring SOCAR's processing enterprises to SOCAR Downstream Management will reduce unnecessary costs and improve efficiency. The article references SOCAR Upstream's role as the established model for centralized operational management since 2014. Petkim and STAR refinery were cited as predecessors that generated $100 million in additional value under centralized management between 2019–2021.", "sentiment": "positive", "published": "January 23, 2025"}, {"keyword": "28 May NQÇİ", "category": "company", "title": "\"Azneft\" İB-in \"28 May\" Neft Qaz Çıxarma İdarəsində yanğın olub | Report.az", "url": "https://report.az/energetika/azneft-ib-in-28-may-nqci-nin-derin-deniz-ozulunde-yangin-olub-olen-var", "source_type": "news", "platform": "Report.az", "snippet": "A fire was recorded at Platform No. 4 (Deep Sea Platform) of the \"28 May\" NQÇİ, part of SOCAR's Azneft Production Union. Firefighting vessels were immediately deployed and the blaze was extinguished. One worker, born in 1960, lost his life as a result of the incident.", "sentiment": "negative", "published": "July 1, 2025"}, {"keyword": "28 May NQÇİ", "category": "company", "title": "SOCAR: Employees of \"28 May\" OGPD evacuated due to severe weather warning", "url": "https://report.az/en/energy/socar-employees-of-28-may-ogpd-evacuated-due-to-severe-weather-warning/", "source_type": "news", "platform": "Report.az", "snippet": "Employees of the \"28 May\" Oil and Gas Extraction Department (OGPD) of SOCAR's Azneft Production Union were evacuated following a severe weather warning. SOCAR spokesperson Nizamaddin Guliyev confirmed no open fountain occurred at platform No. 7. Dangerous works at sea objects were halted and secondary workers evacuated.", "sentiment": "neutral", "published": "February 19, 2025"}, {"keyword": "28 May NQÇİ", "category": "company", "title": "\"28 May\" NQÇİ indiyədək 181 mln. ton neft hasil edib | Report.az", "url": "https://report.az/energetika/28-may-nqci-indiyedek-181-mln-ton-neft-hasil-edib/", "source_type": "news", "platform": "Report.az", "snippet": "The \"28 May\" Oil and Gas Extraction Department (NQÇİ) has produced a cumulative total of 180.5 million tonnes of oil. Currently, 65% of all oil extracted by Azneft Production Union comes from the \"28 May\" NQÇİ, making it the single most productive division within the union.", "sentiment": "positive", "published": "December 25, 2024"}, {"keyword": "28 May NQÇİ", "category": "company", "title": "SOCAR-IN \"28 MAY\" NQÇİ-NİN MÜHƏNDİSİ NARAZILIQ EDİR • Faktinfo.az", "url": "https://www.faktinfo.az/news/socar-in28-may-nqci-nin-muhendisi-naraziliq-edir", "source_type": "news", "platform": "Faktinfo.az", "snippet": "An engineer at SOCAR's \"28 May\" NQÇİ filed a complaint about alleged ongoing irregularities, including unauthorized salary deductions and unfair treatment of workers. The engineer claims that management has not addressed repeated grievances despite appeals to SOCAR's president and other relevant bodies. An inspection of the canteen and food storage found no violations.", "sentiment": "negative", "published": "June 2, 2024"}, {"keyword": "28 May NQÇİ", "category": "company", "title": "\"28 may\" NQÇİ-dən 3 şikayət bir arada - Yenixeber.org", "url": "https://yenixeber.org/sosial/54831-28-may-nqc-den-3-sikayet-bir-arada-.html", "source_type": "web", "platform": "Yenixeber.org", "snippet": "A plumber at the \"28 May\" NQÇİ's Housing and Communal Services department reports that his professional grade was downgraded and has not been restored for years, despite SOCAR granting the qualification. His wife, also employed at the same department, has allegedly had wages deducted without explanation. Courts have declined to accept the lawsuit against the NQÇİ on the basis that it is not a legal entity.", "sentiment": "negative", "published": ""}, {"keyword": "28 May NQÇİ", "category": "company", "title": "\"28 May\" NQÇİ-nin dəniz özüllərinin vəziyyəti araşdırılıb - Seanews.az", "url": "https://seanews.az/az/pages/24/news/1051", "source_type": "news", "platform": "Seanews.az", "snippet": "A working commission including the head of Azneft, Dashgin Iskandarov, and the head of Neftqaztikinti trust inspected the offshore platforms operated by the \"28 May\" NQÇİ. The meeting examined the state of hydraulic structures, sea platforms, and technological facilities. Work completed during the year was reviewed and further operational directions were discussed.", "sentiment": "neutral", "published": ""}, {"keyword": "28 May NQÇİ", "category": "company", "title": "Bu il \"28 May\" NQÇİ-də 3 milyon ton neft və 3,2 milyard kubmetr təbii qaz hasil edilib - İki sahil", "url": "http://ikisahil.az/post/91911-news-91911", "source_type": "news", "platform": "İki sahil", "snippet": "The \"28 May\" NQÇİ produced approximately 2.964 million tonnes of oil and 3.238 billion cubic metres of natural gas in the reported period. Azneft's director emphasized that the \"28 May\" NQÇİ is among the most productive departments, with significant work accomplished across all sectors in recent years. The meeting reviewed operational results and outlined further activity directions.", "sentiment": "positive", "published": "October 13, 2017"}, {"keyword": "28 May NQÇİ", "category": "company", "title": "SOCAR 28 May NQÇİ – Official Facebook Page", "url": "https://www.facebook.com/p/SOCAR-28-May-NQ%C3%87%C4%B0-100042617835091/?locale=ru_RU", "source_type": "social", "platform": "Facebook", "snippet": "The official Facebook page for SOCAR's \"28 May\" NQÇİ (Oil and Gas Extraction Department) serves as a public-facing social media presence for the division. The page publishes updates related to the department's operations, staff news, and corporate announcements. Content is posted in Azerbaijani and is followed by employees, industry observers, and members of the public.", "sentiment": "neutral", "published": ""}, {"keyword": "BP", "category": "competitors", "title": "BP profits more than double, beating expectations as Iran war boosts oil prices", "url": "https://www.cnbc.com/2026/04/28/bp-q1-earnings-oil-energy.html", "source_type": "news", "platform": "CNBC", "snippet": "BP reported Q1 2026 underlying replacement cost profit of $3.2 billion, more than double from a year ago, driven by a surge in oil and gas prices linked to the Middle East conflict. The results comfortably beat analyst expectations of $2.63 billion. CEO Meg O'Neill cited 'exceptional' oil trading contributions and stronger midstream performance.", "sentiment": "positive", "published": "April 28, 2026"}, {"keyword": "BP", "category": "competitors", "title": "BP reports 453% surge in net profit to $3.8bn in Q1 2026", "url": "https://finance.yahoo.com/sectors/energy/articles/bp-reports-453-surge-net-084201968.html", "source_type": "news", "platform": "Yahoo Finance / Offshore Technology", "snippet": "BP reported net profit attributable to shareholders of $3.8bn for Q1 2026, a 453.1% increase from $687m in the same period of 2025. Production rose 4.5% year-on-year to 1.54 billion barrels of oil equivalent per day. Sales and other operating revenue rose 11.5% to $52.3bn for the quarter.", "sentiment": "positive", "published": "April 28, 2026"}, {"keyword": "BP", "category": "competitors", "title": "Oil giant BP suffers shareholder revolt over climate transparency at tense AGM", "url": "https://www.cnbc.com/2026/04/23/oil-giant-bp-shareholder-revolt-agm.html", "source_type": "news", "platform": "CNBC", "snippet": "BP suffered a shareholder revolt at its April 23 AGM, with investors rejecting two board-backed resolutions on climate disclosure and virtual-only meetings. New Chair Albert Manifold was elected with only 81.8% of votes — well below the near-100% typical for chairs. Over a quarter of shareholders also backed a resolution demanding BP justify its capital discipline on oil and gas investments.", "sentiment": "negative", "published": "April 23, 2026"}, {"keyword": "BP", "category": "competitors", "title": "BP considers exit from UK North Sea as CEO reviews upstream portfolio", "url": "https://www.worldoil.com/news/2026/5/1/bp-considers-exit-from-uk-north-sea-as-ceo-reviews-upstream-portfolio/", "source_type": "news", "platform": "World Oil / Bloomberg", "snippet": "BP is conducting an internal review of its UK North Sea upstream operations and considering a potential full or partial exit, which could fetch around £2 billion ($2.7 billion). The review is driven by the UK's 78% effective tax rate on North Sea profits and BP's broader goal to reach $20 billion in divestments by end-2027. No final decision has been confirmed.", "sentiment": "neutral", "published": "May 1, 2026"}, {"keyword": "BP", "category": "competitors", "title": "BP North Sea Exit: How the 78% Tax Rate Is Driving Divestment", "url": "https://discoveryalert.com.au/bp-north-sea-exit-78-tax-rate-ukcs-2026/", "source_type": "blog", "platform": "Discovery Alert", "snippet": "The BP North Sea exit discussion moved into the mainstream in early May 2026, driven by the UK's combined 78% tax rate on oil and gas profits — one of the most demanding upstream fiscal regimes among OECD countries. BP's review encompasses outcomes ranging from partial field divestment to a comprehensive basin withdrawal. The discussion reflects broader supermajor retreat from the UK Continental Shelf.", "sentiment": "negative", "published": "May 5, 2026"}, {"keyword": "BP", "category": "competitors", "title": "BP Shareholder Revolt Puts Climate Governance And Leadership Under Scrutiny", "url": "https://simplywall.st/stocks/gb/energy/lse-bp./bp-shares/news/bp-shareholder-revolt-puts-climate-governance-and-leadership", "source_type": "web", "platform": "Simply Wall St", "snippet": "BP faced a shareholder revolt at its 2026 AGM, with investors rejecting board-backed resolutions on climate disclosure and governance. BP's stock is up 30.6% year-to-date and 66.1% over the past 12 months, buoyed by surging oil prices. The AGM outcome raises questions about how BP will balance its revised energy transition roadmap with pushback from a sizeable shareholder bloc.", "sentiment": "negative", "published": "April 23, 2026"}, {"keyword": "BP", "category": "competitors", "title": "BP eyes North Sea exit as tax load bites", "url": "https://www.cityam.com/bp-eyes-north-sea-exit-as-tax-load-bites/", "source_type": "news", "platform": "City A.M.", "snippet": "BP is reportedly eyeing a potential exit from the North Sea as the tax burden on energy companies is unlikely to ease amid the Iran war. The UK oil giant is considering ceasing or partially winding down North Sea operations, part of an effort to strip assets and pay down debt. A BP spokesperson said it had a 'strong North Sea portfolio with significant untapped potential' but did not comment further.", "sentiment": "negative", "published": "May 2, 2026"}, {"keyword": "BP", "category": "competitors", "title": "Q1 2026 Earnings Calls: BP Says Full Effect of Higher Crude Prices Won't Be Felt Until Q2", "url": "https://rbnenergy.com/daily-posts/analyst-insight/q1-2026-earnings-calls-bp-says-full-effect-higher-crude-prices-wont-be", "source_type": "web", "platform": "RBN Energy", "snippet": "BP's earnings more than doubled to $3.2 billion in Q1 2026 largely due to spiking crude oil prices tied to the war in Iran, but the company noted the full effect of higher prices on earnings and refining margins won't be felt until Q2. Upstream production held steady at 2.3 MMboe/d as Middle East disruptions were offset by increased offshore U.S. volumes. Refining availability remained above BP's 96% target for the fifth consecutive quarter.", "sentiment": "positive", "published": "April 28, 2026"}];
+const KW_SUMMARIES = [{"keyword": "Azneft", "category": "company", "total": 8, "positive": 4, "negative": 0, "neutral": 4, "summary": "Recent public mentions of 'Azneft' are dominated by operational news from Azerbaijan's energy sector, including a February 2026 pipeline leak at Neft Dashlari that was swiftly repaired, enhanced site safety measures during adverse weather, and strong production milestones including record daily output at Oil Rocks. The brand also appears prominently in the 2026 F1 Azerbaijan Grand Prix context, with the 'Azneft Grandstand' and 'Azneft Square' serving as key landmarks of the Baku City Circuit, reflecting the brand's dual identity as both an industrial entity and a local landmark."}, {"keyword": "Azneft IB", "category": "company", "total": 8, "positive": 4, "negative": 1, "neutral": 3, "summary": "Azneft IB (Production Union), a key structural unit of Azerbaijan's state oil company SOCAR, has been prominently in the news due to significant organizational restructuring in late 2025, including the abolition of the Director General post and multiple leadership changes. Alongside these internal shifts, the company made headlines for a fatal offshore platform fire, a record oil output target for 2025, and ongoing infrastructure modernization efforts."}, {"keyword": "Socar Upstream Əməliyyat Şirkəti", "category": "company", "total": 8, "positive": 7, "negative": 0, "neutral": 1, "summary": "Public mentions of 'SOCAR Upstream Əməliyyat Şirkəti' and its close equivalents (SOCAR Upstream Management International LLC / SOCAR Upstream Operating Company) are predominantly positive, centered on major upstream deals, new operating joint ventures in Uzbekistan, PSA consolidations in the Caspian, and active recruitment across Azerbaijani job platforms. Sentiment across news, web, and professional sources is consistently upbeat, reflecting SOCAR Upstream's expanding role as operator and manager of key oil and gas projects both domestically and internationally."}, {"keyword": "28 May NQÇİ", "category": "company", "total": 8, "positive": 2, "negative": 3, "neutral": 3, "summary": "\"28 May\" NQÇİ (Oil and Gas Extraction Department), a key division of SOCAR's Azneft Production Union in Azerbaijan, has been mentioned most prominently in the context of a fatal offshore platform fire (July 2025) and a weather-related personnel evacuation (February 2025), alongside ongoing worker grievances about labour rights and wage disputes. The entity remains Azerbaijan's most productive oil and gas extraction department, accounting for 65% of Azneft's total output, but recurring safety incidents and employee complaints have generated a notably mixed — and periodically negative — public sentiment."}, {"keyword": "Neft Daşları NQÇİ", "category": "company", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Could not parse results."}, {"keyword": "N.Nərimanov NQÇİ", "category": "company", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Could not parse results."}, {"keyword": "Abşeronneft NQÇİ", "category": "company", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Could not parse results."}, {"keyword": "Siyəzənneft NQÇİ", "category": "company", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Could not parse results."}, {"keyword": "Bibiheybət NQÇİ", "category": "company", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Could not parse results."}, {"keyword": "Əmirov NQÇİ", "category": "company", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Could not parse results."}, {"keyword": "BP", "category": "competitors", "total": 8, "positive": 3, "negative": 4, "neutral": 1, "summary": "BP is dominating recent public discourse on two major fronts: a stellar Q1 2026 earnings beat — with net profit surging 453% to $3.8bn driven by Iran-war-fueled oil prices — and significant governance turbulence, including a shareholder revolt at its April 23 AGM over climate disclosures and a high-profile internal review of a potential exit from the UK North Sea. Sentiment is split between financial optimism (record profits, strong stock performance, UBS upgrade) and reputational/governance concern (climate shareholder rebellion, North Sea tax pressures, and rising net debt of $25.3bn)."}, {"keyword": "Zaur Qəhramanov Socar President Müşavir", "category": "executives", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQUs6egJWf9WKK7QQq3'}"}, {"keyword": "İlqar Əli-Zadə Azneft İB Baş Direktor", "category": "executives", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQV4S2ZnV9d1buf2F5q'}"}, {"keyword": "Raşxan Qaraşlı Azneft İnsan Resursları muavin", "category": "executives", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQVFBC1woRJvMyptQiB'}"}, {"keyword": "Mehriban Osmanova SUOM Direktor", "category": "executives", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQVRzZu81NUccJkmceJ'}"}, {"keyword": "Ziyan", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQVcb3vUfiZrpVWFUw6'}"}, {"keyword": "Zərər", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQVoojhyg9Ei4koSpHD'}"}, {"keyword": "Süi istifadə", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQVzmJASoLP24KQnRb4'}"}, {"keyword": "Vəzifə Öhdəlikləri", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQWBH4ZxYmcUq1CenK6'}"}, {"keyword": "İnsan Resursları", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQWNdw7Nk6dvB7oXDZA'}"}, {"keyword": "İşçilər", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQWb4o8u63CKcEMQMVc'}"}, {"keyword": "Hasilat azalma", "category": "topics", "total": 0, "positive": 0, "negative": 0, "neutral": 0, "summary": "Error: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': \"This request would exceed your organization's rate limit of 30,000 input tokens per minute (org: 752c1099-258c-4110-b797-f901d529bf5e, model: claude-sonnet-4-6). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://claude.com/contact-sales to discuss your options for a rate limit increase.\"}, 'request_id': 'req_011CaoQWmkEopPvmantekyJw'}"}];
+
+const BADGE = {
+  news:'badge-news', social:'badge-social', web:'badge-web',
+  forum:'badge-forum', forums:'badge-forum', blog:'badge-blog'
+};
+const SENT_ICON = {positive:'▲',negative:'▼',neutral:'●'};
+const SENT_CLS  = {positive:'s-pos',negative:'s-neg',neutral:'s-neu'};
+
+let activeKw        = 'all';
+let activeSentiment = 'all';
+let activeSource    = 'all';
+
+// ── Render keyword cards ───────────────────────────────────────────
+function renderKwCards() {
+  const grid = document.getElementById('kw-grid');
+  let html = `<div class="kw-card ${activeKw==='all'?'active':''}"
+    onclick="filterByKw('all',this)" style="text-align:center;min-width:90px;">
+    <div class="kw-name">All</div>
+    <div class="kw-bars" style="justify-content:center;">
+      <span style="color:var(--green)">▲${KW_SUMMARIES.reduce((a,k)=>a+k.positive,0)}</span>
+      <span style="color:var(--gray)">●${KW_SUMMARIES.reduce((a,k)=>a+k.neutral,0)}</span>
+      <span style="color:var(--red)">▼${KW_SUMMARIES.reduce((a,k)=>a+k.negative,0)}</span>
+    </div>
+  </div>`;
+
+  KW_SUMMARIES.forEach(k => {
+    html += `<div class="kw-card ${activeKw===k.keyword?'active':''}"
+      onclick="filterByKw('${k.keyword.replace(/'/g,"\'")},this)">
+      <div class="kw-name" title="${k.keyword}">${k.keyword}</div>
+      <div class="kw-meta">${k.category}</div>
+      <div class="kw-bars">
+        <span style="color:var(--green)">▲${k.positive}</span>
+        <span style="color:var(--gray)">●${k.neutral}</span>
+        <span style="color:var(--red)">▼${k.negative}</span>
+      </div>
+    </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+function filterByKw(kw, el) {
+  activeKw = kw;
+  renderKwCards();
+  applyFilters();
+}
+
+// ── Filter logic ──────────────────────────────────────────────────
+function setFilter(type, val, btn) {
+  if (type === 'sentiment') activeSentiment = val;
+  if (type === 'source')    activeSource    = val;
+  document.querySelectorAll(`[data-filter="${type}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('search-box').value.toLowerCase();
+  const list = document.getElementById('results-list');
+  let visible = 0;
+
+  // Filter data
+  const filtered = ALL_DATA.filter(r => {
+    if (activeKw !== 'all' && r.keyword !== activeKw) return false;
+    if (activeSentiment !== 'all' && r.sentiment !== activeSentiment) return false;
+    if (activeSource !== 'all' && r.source_type !== activeSource) return false;
+    if (q && !r.title.toLowerCase().includes(q) &&
+             !r.snippet.toLowerCase().includes(q) &&
+             !r.keyword.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  // Render
+  let html = '';
+  let lastKw = '';
+  filtered.forEach(r => {
+    if (r.keyword !== lastKw) {
+      const kwSum = KW_SUMMARIES.find(k => k.keyword === r.keyword);
+      html += `<div class="kw-divider">${r.keyword}</div>`;
+      if (kwSum && kwSum.summary) {
+        html += `<div class="kw-summary-box">${kwSum.summary}</div>`;
+      }
+      lastKw = r.keyword;
+    }
+    const bc   = BADGE[r.source_type] || 'badge-web';
+    const si   = SENT_ICON[r.sentiment] || '●';
+    const sc   = SENT_CLS[r.sentiment]  || 's-neu';
+    const pub  = r.published ? `<span class="pub-date">${r.published}</span>` : '';
+    const link = r.url && r.url !== '#'
+      ? `<a href="${r.url}" target="_blank" class="view-link">View source →</a>` : '';
+    html += `
+    <div class="result">
+      <div class="result-body">
+        <a href="${r.url}" target="_blank" class="result-title">${r.title || 'Untitled'}</a>
+        <p class="result-snippet">${r.snippet}</p>
+        <div class="result-meta">
+          <span class="badge ${bc}">${r.source_type}</span>
+          ${r.platform ? `<span class="platform">${r.platform}</span>` : ''}
+          ${pub} ${link}
+        </div>
+      </div>
+      <div class="result-sent ${sc}" title="${r.sentiment}">${si}</div>
+    </div>`;
+    visible++;
+  });
+
+  list.innerHTML = html;
+  document.getElementById('empty-msg').style.display = visible ? 'none' : 'block';
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+renderKwCards();
+applyFilters();
+</script>
+</body>
+</html>
